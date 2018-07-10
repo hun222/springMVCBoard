@@ -50,5 +50,8 @@
 		</aop:aspect>
 	</aop:config>
 	
+	<!-- MyBatis -->
+	 <bean id="dataSource" class="org.apache.command.dbcp.BasicDataSource" destroy-method="close">
 	
+	</bean>
 </beans>
