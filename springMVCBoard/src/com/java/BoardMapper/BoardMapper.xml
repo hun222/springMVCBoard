@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.boardMapper.xml">
+	<!-- DTO 변수명(필드)하고 데이터베이스 필드명이 다르면 작성해야한다. -->
+	<resultMap type="com.java.boardDTO.BoardDTO" id="boardDTO">
+		<result column="writer" property="writer"/>
+		<result column="subject" property="subject"/>
+		<result column="email" property="email"/>
+		<result column="content" property="content"/>
+		<result column="password" property="password"/>
+		
+		<result column="boardNumber" property="boardNumber"/>
+		<result column="groupNumber" property="groupNumber"/>
+		<result column="sequenceNumber" property="sequenceNumber"/>
+		<result column="sequenceLevel" property="sequenceLevel"/>
+		
+		<result column="readCount" property="readCount"/>
+		<result column="writeDate" property="writeDate"/>
+	</resultMap>
+	
+	<select id="boardGroupNumberMax" resultType="int">
+		select nvl(max(groupNumber),0) from board	
+	</select>
+	
+	<insert id="boardInsert" parameterType="com.java.boardDTO.BoardDTO">
+		insert into board values(
+		 #{writer}, #{subject}, #{email}, #{content}, #{password}, 
+		 #{writeDate}, #{readCount}, 
+		 board_board_number_sql.nextval, #{groupNumber}, #{sequenceNumber}, #{sequenceLevel})	
+	</insert>
+	
+	<select id="countRow" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<select id="boardList"  parameterType="java.util.Map" resultMap="boardDTO">
+	<![CDATA[
+		select * from(
+			select rownum as rnum, a.*
+			from(select * from board order by groupnumber desc, sequencenumber asc) a)
+		where #{startRow}<=rnum and rnum<=#{endRow}
+	]]>
+	</select>
+	
+	<update id="boardReadCount" parameterType="int">
+		update board set readcount = readcount +1
+		where boardnumber=#{boardNumber}
+	</update>
+	
+	<select id="boardRead" parameterType="int" resultMap="boardDTO">
+		select * from board where boardnumber=#{boardNumber}
+	</select>
+	
+	<update id="boardWriteNumber" parameterType="java.util.Map">
+	<![CDATA[
+		update board set sequenceNumber=sequenceNumber+1
+		where groupNumber = #{groupNumber} and sequenceNumber>#{sequenceNumber}	
+	]]>
+	</update>
+	
+	<delete id="deleteBoard" parameterType="java.util.Map">
+		delete from board where boardNumber = #{boardNumber} and password = #{password}
+	</delete>
+	
+	<update id="boardUpdate" parameterType="com.java.boardDTO.BoardDTO">
+		update board set subject=#{subject}, email=#{email}, content=#{content}
+		where boardNumber=#{boardNumber}
+	</update>
+</mapper>

@@ -50,8 +50,13 @@
 		</aop:aspect>
 	</aop:config>
 	
-	<!-- MyBatis -->
-	 <bean id="dataSource" class="org.apache.command.dbcp.BasicDataSource" destroy-method="close">
-	
+	<!-- Spring 환경설정 -->
+	 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="hr"/>
+		<property name="password" value="1234"/>
 	</bean>
+	
+	<!-- MyBatis -->
 </beans>
