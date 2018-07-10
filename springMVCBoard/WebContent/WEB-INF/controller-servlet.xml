@@ -18,6 +18,7 @@
 		<property name="mappings">
 			<props>
 				<prop key="/board/test.do">test</prop>
+				<prop key="/board/write.do">boardWrite</prop>
 			</props>
 		</property>
 	</bean>
@@ -37,4 +38,17 @@
 	<bean id="boardDAO" class="com.java.boardDAO.BoardDAOImpl">
 		<!-- MyBatis DI -->
 	</bean>
+	
+	<!-- 공통 클래스 -->
+	<bean id="homeaspect" class="com.java.aop.HomeAspect"/>
+	
+	<!-- aop -->
+	<aop:config>
+		<aop:aspect id="aspect" ref="homeaspect">
+			<aop:pointcut expression="within(com.java..*)" id="publicMethod"/>
+			<aop:around method="advice" pointcut-ref="publicMethod"/>
+		</aop:aspect>
+	</aop:config>
+	
+	
 </beans>
