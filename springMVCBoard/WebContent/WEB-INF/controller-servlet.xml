@@ -20,6 +20,11 @@
 				<prop key="/board/test.do">test</prop>
 				<prop key="/board/write.do">boardWrite</prop>
 				<prop key="/board/writeOk.do">boardWriteOk</prop>
+				<prop key="/board/list.do">boardList</prop>
+				<prop key="/board/read.do">boardRead</prop>
+				<prop key="/board/delete.do">boardDelete</prop>
+				<prop key="/board/deleteOk.do">boardDeleteOk</prop>
+				<prop key="/board/update.do">boardUpdate</prop>
 			</props>
 		</property>
 	</bean>
@@ -72,5 +77,11 @@
 	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 	  <constructor-arg ref="sqlSessionFactoryBean" />
+	</bean>
+	
+	<!-- View, ViewResolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"/>
+		<property name="suffix" value=".jsp"/>
 	</bean>
 </beans>

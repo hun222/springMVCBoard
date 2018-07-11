@@ -2,10 +2,10 @@ package com.java.boardService;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 		mv.addObject("sequenceNumber", sequenceNumber);
 		mv.addObject("sequenceLevel", sequenceLevel);
 		
-		mv.setViewName("/WEB-INF/view/board/write.jsp");
+		mv.setViewName("board/write");
 	}
 
 	@Override
@@ -59,7 +59,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		BoardDTO boardDTO = (BoardDTO)map.get("boardDTO");
 		HttpServletRequest request = (HttpServletRequest)map.get("request");
-		HttpServletResponse response = (HttpServletResponse)map.get("response");
 		
 		HomeAspect.logger.info(HomeAspect.logMsg+boardDTO.toString());
 		
@@ -70,6 +69,9 @@ public class BoardServiceImpl implements BoardService {
 		
 		int chk = boardDAO.boardWrite(boardDTO);
 		HomeAspect.logger.info(HomeAspect.logMsg+chk);
+		
+		mv.addObject("chk",chk);
+		mv.setViewName("board/writeOk");
 	}
 	
 	public void boardWriteNumber(BoardDTO boardDTO) {
@@ -83,7 +85,8 @@ public class BoardServiceImpl implements BoardService {
 			//root 
 			max = boardDAO.boardGroupNumberMax();
 			HomeAspect.logger.info(HomeAspect.logMsg + max);
-			boardDTO.setGroupNumber(max);
+			
+			boardDTO.setGroupNumber(max+1);
 		}else {
 			//reply
 			Map<String, Integer> map = new HashMap();
@@ -99,5 +102,78 @@ public class BoardServiceImpl implements BoardService {
 			boardDTO.setSequenceNumber(sequenceNumber);
 			boardDTO.setSequenceLevel(sequenceLevel);
 		}
+	}
+
+	@Override
+	public void boardList(ModelAndView mv) {
+		Map<String, Object> map = mv.getModelMap();
+		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		
+		String pageNumber=request.getParameter("pageNumber");
+		if(pageNumber==null) pageNumber="1";
+		
+		int boardSize = 10;
+		int currentPage = Integer.parseInt(pageNumber);
+		int startRow = (currentPage-1)*boardSize+1;	
+		int endRow = currentPage*boardSize;
+		
+		int count = boardDAO.boardCount();
+		HomeAspect.logger.info(HomeAspect.logMsg + count);
+		
+		List<BoardDTO> boardList = null;
+		if(count > 0) {
+			boardList = boardDAO.boardList(startRow, endRow);
+			HomeAspect.logger.info(HomeAspect.logMsg + boardList.size());
+		}
+		mv.addObject("boardSize", boardSize);
+		mv.addObject("currentPage", currentPage);
+		mv.addObject("count", count);
+		mv.addObject("boardList", boardList);
+		
+		mv.setViewName("board/list");
+	}
+
+	@Override
+	public void boardRead(ModelAndView mv) {
+		Map<String, Object> map = mv.getModelMap();
+		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		int boardNumber = Integer.parseInt(request.getParameter("boardNumber"));
+		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		
+		BoardDTO boardDTO = boardDAO.boardRead(boardNumber);
+		HomeAspect.logger.info(HomeAspect.logMsg+boardDTO.toString());
+		
+		mv.addObject("boardDTO",boardDTO);
+		mv.addObject("pageNumber",pageNumber);
+		mv.setViewName("board/read");
+	}
+
+	@Override
+	public void boardDeleteOk(ModelAndView mv) {
+		Map<String, Object> map = mv.getModelMap();
+		int boardNumber = (int)map.get("boardNumber");
+		int pageNumber = (int)map.get("pageNumber");
+		String password = (String)map.get("password");
+		HomeAspect.logger.info(HomeAspect.logMsg+boardNumber+","+pageNumber+","+password);
+		
+		int count = boardDAO.boardDelete(boardNumber, password);
+		HomeAspect.logger.info(HomeAspect.logMsg+count);
+		
+		mv.addObject("count",count);
+		mv.addObject("pageNumber",pageNumber);
+		mv.setViewName("board/deleteOk");
+		
+	}
+
+	@Override
+	public void boardUpdate(ModelAndView mv) {
+		Map<String, Object> map = mv.getModelMap();
+		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		
+		int boardNumber = Integer.parseInt(request.getParameter("boardNumber"));
+		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		
+		BoardDTO boardDTO = boardDAO.boardUpRead(boardNumber);
+		HomeAspect.logger.info(HomeAspect.logMsg+boardDTO.toString());
 	}
 }

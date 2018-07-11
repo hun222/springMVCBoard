@@ -8,4 +8,12 @@ public interface BoardService {
 
 	void boardWriteOk(ModelAndView mv);
 
+	void boardList(ModelAndView mv);
+
+	void boardRead(ModelAndView mv);
+
+	void boardDeleteOk(ModelAndView mv);
+
+	void boardUpdate(ModelAndView mv);
+
 }

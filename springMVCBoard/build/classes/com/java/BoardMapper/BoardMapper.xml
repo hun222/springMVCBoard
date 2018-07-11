@@ -38,11 +38,11 @@
 		 #{writeDate}, #{readCount}, 
 		 board_board_number_sql.nextval, #{groupNumber}, #{sequenceNumber}, #{sequenceLevel})	
 	</insert>
-	
-	<!-- 
+	 
 	<select id="countRow" resultType="int">
 		select count(*) from board
 	</select>
+	
 	
 	<select id="boardList"  parameterType="java.util.Map" resultMap="boardDTO">
 	<![CDATA[
@@ -52,6 +52,7 @@
 		where #{startRow}<=rnum and rnum<=#{endRow}
 	]]>
 	</select>
+	
 	
 	<update id="boardReadCount" parameterType="int">
 		update board set readcount = readcount +1
@@ -66,7 +67,7 @@
 	<delete id="deleteBoard" parameterType="java.util.Map">
 		delete from board where boardNumber = #{boardNumber} and password = #{password}
 	</delete>
-	
+	<!--
 	<update id="boardUpdate" parameterType="com.java.boardDTO.BoardDTO">
 		update board set subject=#{subject}, email=#{email}, content=#{content}
 		where boardNumber=#{boardNumber}
