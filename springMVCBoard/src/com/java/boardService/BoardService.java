@@ -6,4 +6,6 @@ public interface BoardService {
 
 	void boardWrite(ModelAndView mv);
 
+	void boardWriteOk(ModelAndView mv);
+
 }

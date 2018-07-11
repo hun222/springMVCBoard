@@ -25,6 +25,13 @@
 		select nvl(max(groupNumber),0) from board	
 	</select>
 	
+	<update id="boardWriteNumber" parameterType="java.util.Map">
+	<![CDATA[
+		update board set sequenceNumber=sequenceNumber+1
+		where groupNumber = #{groupNumber} and sequenceNumber>#{sequenceNumber}	
+	]]>
+	</update>
+	
 	<insert id="boardInsert" parameterType="com.java.boardDTO.BoardDTO">
 		insert into board values(
 		 #{writer}, #{subject}, #{email}, #{content}, #{password}, 
@@ -32,6 +39,7 @@
 		 board_board_number_sql.nextval, #{groupNumber}, #{sequenceNumber}, #{sequenceLevel})	
 	</insert>
 	
+	<!-- 
 	<select id="countRow" resultType="int">
 		select count(*) from board
 	</select>
@@ -54,12 +62,6 @@
 		select * from board where boardnumber=#{boardNumber}
 	</select>
 	
-	<update id="boardWriteNumber" parameterType="java.util.Map">
-	<![CDATA[
-		update board set sequenceNumber=sequenceNumber+1
-		where groupNumber = #{groupNumber} and sequenceNumber>#{sequenceNumber}	
-	]]>
-	</update>
 	
 	<delete id="deleteBoard" parameterType="java.util.Map">
 		delete from board where boardNumber = #{boardNumber} and password = #{password}
@@ -69,4 +71,5 @@
 		update board set subject=#{subject}, email=#{email}, content=#{content}
 		where boardNumber=#{boardNumber}
 	</update>
+	 -->
 </mapper>

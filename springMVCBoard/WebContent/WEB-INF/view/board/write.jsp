@@ -7,12 +7,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <c:set var="root" value="${pageContext.request.contextPath }"/>
 <title>게시판 글쓰기</title>
-<script type="text/javascript" src="${root }/css_js/script.js"></script>
+<!-- <script type="text/javascript" src="${root }/css_js/script.js"></script>  -->
 <link rel="stylesheet" type="text/css" href="${root }/css_js/style.css">
 </head>
 <body>
 <h3>${root }</h3>
-	<form class="form_style"  action="${root }/board/writeOk.do"  method="post" onsubmit="return checkForm(this)">
+	<form class="form_style"  action="${root }/board/writeOk.do"  method="post">
 		<input type="hidden" name="boardNumber" value="${boardNumber}"/>
 		<input type="hidden" name="groupNumber" value="${groupNumber}"/>
 		<input type="hidden" name="sequenceNumber" value="${sequenceNumber}"/>
