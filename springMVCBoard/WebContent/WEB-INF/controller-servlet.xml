@@ -25,6 +25,7 @@
 				<prop key="/board/delete.do">boardDelete</prop>
 				<prop key="/board/deleteOk.do">boardDeleteOk</prop>
 				<prop key="/board/update.do">boardUpdate</prop>
+				<prop key="/board/updateOk.do">boardUpdateOk</prop>
 			</props>
 		</property>
 	</bean>

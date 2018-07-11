@@ -156,10 +156,10 @@ public class BoardServiceImpl implements BoardService {
 		String password = (String)map.get("password");
 		HomeAspect.logger.info(HomeAspect.logMsg+boardNumber+","+pageNumber+","+password);
 		
-		int count = boardDAO.boardDelete(boardNumber, password);
-		HomeAspect.logger.info(HomeAspect.logMsg+count);
+		int chk = boardDAO.boardDelete(boardNumber, password);
+		HomeAspect.logger.info(HomeAspect.logMsg+chk);
 		
-		mv.addObject("count",count);
+		mv.addObject("chk",chk);
 		mv.addObject("pageNumber",pageNumber);
 		mv.setViewName("board/deleteOk");
 		
@@ -175,5 +175,28 @@ public class BoardServiceImpl implements BoardService {
 		
 		BoardDTO boardDTO = boardDAO.boardUpRead(boardNumber);
 		HomeAspect.logger.info(HomeAspect.logMsg+boardDTO.toString());
+		
+		mv.addObject("boardDTO",boardDTO);
+		mv.addObject("pageNumber",pageNumber);
+		mv.setViewName("board/update");
+	}
+
+	@Override
+	public void boardUpdateOk(ModelAndView mv) {
+		Map<String, Object> map = mv.getModelMap();
+		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		BoardDTO boardDTO = (BoardDTO)map.get("boardDTO");
+		HomeAspect.logger.info(HomeAspect.logMsg+boardDTO.toString());
+
+		int boardNumber = Integer.parseInt(request.getParameter("boardNumber"));
+		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		
+		int count = boardDAO.boardUpdate(boardDTO);
+		HomeAspect.logger.info(HomeAspect.logMsg+count);
+		
+		mv.addObject("count",count);
+		mv.addObject("pageNumber",pageNumber);
+		mv.addObject("boardNumber",boardNumber);
+		mv.setViewName("board/updateOk");
 	}
 }

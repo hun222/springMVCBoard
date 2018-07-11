@@ -23,4 +23,6 @@ public interface BoardDAO {
 
 	BoardDTO boardUpRead(int boardNumber);
 
+	int boardUpdate(BoardDTO boardDTO);
+
 }

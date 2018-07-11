@@ -88,5 +88,11 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardRead", boardNumber);
 	}
+
+	@Override
+	public int boardUpdate(BoardDTO boardDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardUpdate", boardDTO);
+	}
 	
 }

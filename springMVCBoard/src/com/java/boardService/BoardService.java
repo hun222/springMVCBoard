@@ -16,4 +16,6 @@ public interface BoardService {
 
 	void boardUpdate(ModelAndView mv);
 
+	void boardUpdateOk(ModelAndView mv);
+
 }

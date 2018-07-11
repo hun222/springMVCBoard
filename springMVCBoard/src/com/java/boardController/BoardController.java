@@ -98,8 +98,17 @@ public class BoardController extends MultiActionController{
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("request",request);
 		
-		
 		boardService.boardUpdate(mv);
+		
+		return mv;
+	}
+	
+	public ModelAndView boardUpdateOk(HttpServletRequest request, HttpServletResponse response, BoardDTO boardDTO)  {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("request",request);
+		mv.addObject("boardDTO",boardDTO);
+		
+		boardService.boardUpdateOk(mv);
 		
 		return mv;
 	}
